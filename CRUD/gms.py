@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from db import mysql
-from utils.format import response_format
+from utils.format import response_converter
 from utils.auth import token_required
 
 gms_bp = Blueprint("grandmasters", __name__)
@@ -56,7 +56,7 @@ def get_gms():
         for row in rows:
             data.append({"id": row[0], "name": row[1], "rating": row[2]})
 
-        return response_format({"grandmasters": data}, fmt), 200
+        return response_converter({"grandmasters": data}, fmt), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
