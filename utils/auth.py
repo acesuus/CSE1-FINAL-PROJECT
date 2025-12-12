@@ -24,7 +24,7 @@ def check_token():
     try:
         jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         return True
-    except:
+    except Exception:
         return False
 
 
