@@ -2,6 +2,8 @@ import jwt
 import datetime
 from flask import request, jsonify
 from functools import wraps
+from datetime import timezone
+
 SECRET_KEY = "secret_key_ni_kert"
 
 def token_required(f):
@@ -29,6 +31,6 @@ def check_token():
 
 
 def create_token():
-    expiration = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(hours=1)
     token = jwt.encode({"exp": expiration}, SECRET_KEY, algorithm="HS256")
     return token
