@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from db import mysql
 import conn
 from utils.auth import create_token
@@ -18,6 +18,8 @@ mysql.init_app(app)
 
 
 app.register_blueprint(gms_bp, url_prefix="/api/gms")
+
+
 
 
 @app.route("/api/login", methods=["POST"])
