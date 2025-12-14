@@ -7,11 +7,11 @@ from datetime import datetime
 gms_bp = Blueprint("grandmasters", __name__)
 
 def get_cursor():
-    mysql.connection.ping(reconnect=True)
+    mysql.connection.ping(True)
     return mysql.connection.cursor()
 
 def validate_gm_data(data):
-    """Validate GM data types and values"""
+
     required_fields = [
         "first_name", "last_name", "country", "birth_year",
         "peak_rating", "current_rating", "title_year", "FIDE_id"
@@ -108,7 +108,7 @@ def get_gms():
         data = []
         for row in rows:
             data.append({
-                "gm_id": row[0],
+                "id": row[0],
                 "first_name": row[1],
                 "last_name": row[2],
                 "country": row[3],
@@ -129,7 +129,7 @@ def get_gms():
 def get_gm(id):
     try:
         cursor = get_cursor()
-        cursor.execute("SELECT * FROM grandmasters WHERE gm_id=%s", (id,))
+        cursor.execute("SELECT * FROM grandmasters WHERE id=%s", (id,))
         row = cursor.fetchone()
         cursor.close()
 
@@ -138,7 +138,7 @@ def get_gm(id):
 
         return jsonify({
             "gm": {
-                "gm_id": row[0],
+                "id": row[0],
                 "first_name": row[1],
                 "last_name": row[2],
                 "country": row[3],
@@ -165,7 +165,7 @@ def update_gm(id):
 
     try:
         cursor = get_cursor()
-        cursor.execute("SELECT * FROM grandmasters WHERE gm_id=%s", (id,))
+        cursor.execute("SELECT * FROM grandmasters WHERE id=%s", (id,))
         if not cursor.fetchone():
             cursor.close()
             return jsonify({"error": "GM not found"}), 404
@@ -174,7 +174,7 @@ def update_gm(id):
             UPDATE grandmasters SET
             first_name=%s, last_name=%s, country=%s, birth_year=%s,
             peak_rating=%s, current_rating=%s, title_year=%s, FIDE_id=%s
-            WHERE gm_id=%s
+            WHERE id=%s
         """
 
         values = (
@@ -198,12 +198,12 @@ def update_gm(id):
 def delete_gm(id):
     try:
         cursor = get_cursor()
-        cursor.execute("SELECT * FROM grandmasters WHERE gm_id=%s", (id,))
+        cursor.execute("SELECT * FROM grandmasters WHERE id=%s", (id,))
         if not cursor.fetchone():
             cursor.close()
             return jsonify({"error": "GM not found"}), 404
 
-        cursor.execute("DELETE FROM grandmasters WHERE gm_id=%s", (id,))
+        cursor.execute("DELETE FROM grandmasters WHERE id=%s", (id,))
         mysql.connection.commit()
         cursor.close()
 
