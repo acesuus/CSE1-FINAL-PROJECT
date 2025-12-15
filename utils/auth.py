@@ -29,7 +29,6 @@ def check_token():
     except Exception:
         return False
 
-
 def create_token():
     expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(hours=1)
     token = jwt.encode({"exp": expiration}, SECRET_KEY, algorithm="HS256")

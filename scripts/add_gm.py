@@ -16,14 +16,14 @@ print(f"Login successful\n")
 
 # Step 2: Create your grandmaster data
 gm = {
-    "first_name": "Magnus",
-    "last_name": "Carlsen",
+    "first_name": "Ace",
+    "last_name": "Ombion",
     "country": "NOR",
     "birth_year": 1990,
     "peak_rating": 2882,
     "current_rating": 2850,
     "title_year": 2013,
-    "FIDE_id": "1503014"
+    "FIDE_id": "4321412412"
 }
 
 # Step 3: Send the data to the API
