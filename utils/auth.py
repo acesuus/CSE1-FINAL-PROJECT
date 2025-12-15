@@ -6,7 +6,7 @@ from datetime import timezone
 
 SECRET_KEY = "secret_key_ni_kert"
 
-def token_required(f):
+def authenticated(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         if not check_token():
