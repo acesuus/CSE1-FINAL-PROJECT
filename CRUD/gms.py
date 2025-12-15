@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from db import mysql
 from utils.format import response_format
-from utils.auth import token_required
+from utils.auth import authenticated
 from datetime import datetime
 
 gms_bp = Blueprint("grandmasters", __name__)
@@ -51,13 +51,13 @@ def validate_gm_data(data):
     return True, "Valid"
 
 @gms_bp.route("/", methods=["POST"])
-@token_required
+@authenticated
 def create_gm():
     data = request.json
     
     valid, message = validate_gm_data(data)
     if not valid:
-        return jsonify({"error": message}), 400
+        return jsonify({"error": message}), 400 
 
     try:
         cursor = get_cursor()
@@ -155,7 +155,7 @@ def get_gm(id):
 
 
 @gms_bp.route("/<int:id>", methods=["PUT"])
-@token_required
+@authenticated
 def update_gm(id):
     data = request.json
     
@@ -194,7 +194,7 @@ def update_gm(id):
 
 
 @gms_bp.route("/<int:id>", methods=["DELETE"])
-@token_required
+@authenticated
 def delete_gm(id):
     try:
         cursor = get_cursor()
